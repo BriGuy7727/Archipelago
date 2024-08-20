@@ -1,11 +1,19 @@
 from ..menus import pregame_track_scroll_area as scroll_area
 from ..data.text.text2 import text_value
 from ..instruction import f0 as f0
+from ...Options import FF6WCOptions, Treasuresanity
 
 class FlagsRewardItems(scroll_area.ScrollArea):
     MENU_NUMBER = 16
 
     def __init__(self, item_ids):
+        # for Treasuresanity, only list 1 reward item ArchplgoItem since the -ir flagstring won't match user input since all items are shuffled including chests
+        print(self.options.Treasuresanity.value)
+        print(item_ids)
+        if self.options.Treasuresanity.value != 0:
+            item_ids = [231]
+        
+        item_ids = [231]
         self.number_items = len(item_ids)
         self.lines = []
 
@@ -48,6 +56,7 @@ class FlagsRewardItems(scroll_area.ScrollArea):
             STARS, SPECIAL, GAMBLER, CLAWS, SHIELDS, HELMETS, ARMORS, TOOLS, SKEANS, RELICS
         from ..data.text.text2 import text_value
         icon = ''
+        print(item_id)
         if item_id in DIRKS or item_id in KNIVES:
             icon = chr(text_value['<dirk icon>'])
         elif item_id in SWORDS:
