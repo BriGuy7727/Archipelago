@@ -89,6 +89,16 @@ def process(args):
                     condition_arg_count = 1
                 condition_args = values[value_index : value_index + condition_arg_count]
                 value_index += condition_arg_count
+                # if there are no condition args at all, this is an error
+                # this is something like -oa 2.1.1.3 where there needs to be something after 3 (either r or a number)
+                if condition_args == []:
+                    import sys
+                    args.parser.print_usage()
+                    # get the objective string that is not valid for display
+                    objective_string = getattr(args, "objective_" + lower_letter)
+                    # print error message including the objective string in question
+                    print(f"{sys.argv[0]}: error! Objective not valid: o{lower_letter} {objective_string}")
+                    sys.exit(1)
 
                 for arg in condition_args:
                     if arg not in condition_type.value_range:
